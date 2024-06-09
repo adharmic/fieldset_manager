@@ -1,6 +1,6 @@
 import { Client } from "@elastic/elasticsearch";
 
-const client = new Client({ node: process.env.ELASTICSEARCH_URI || 'http://localhost:9200' });
+const client = new Client({ node: process.env.ELASTICSEARCH_URI || "http://localhost:9200" });
 
 async function connectToElasticsearch() {
   try {
