@@ -1,19 +1,23 @@
-import path from 'path';
+import { dirname, join} from 'path';
+import { fileURLToPath } from 'url';
 import { app, BrowserWindow } from "electron";
-import { connectToMongoDb } from '../db/mongodb.js';
+import { connectToMongoDB } from '../db/mongodb.js';
 import { connectToElasticsearch } from '../db/elasticsearch.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 async function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
+            preload: join(__dirname, 'preload.js'),
         },
     });
 
     try {
-        await connectToMongoDb();
+        await connectToMongoDB();
         await connectToElasticsearch();
     }
     catch (err) {
@@ -21,7 +25,7 @@ async function createWindow() {
         alert('Unable to establish a connection with the server. Please try again later.');
     }
 
-    mainWindow.loadURL(`file://${path.join(__dirname, '../renderer/index.html')}`);
+    mainWindow.loadURL(`file://${join(__dirname, '../renderer/index.html')}`);
 }
 
 app.whenReady().then(createWindow);

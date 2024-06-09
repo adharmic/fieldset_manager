@@ -1,8 +1,7 @@
-// src/db/mongodb.js
-const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/mydatabase';
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri);
 
 async function connectToMongoDB() {
   try {
@@ -15,4 +14,4 @@ async function connectToMongoDB() {
   }
 }
 
-export default { client, connectToMongoDB };
+export { connectToMongoDB, client };

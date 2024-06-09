@@ -12,4 +12,4 @@ async function connectToElasticsearch() {
   }
 }
 
-export default { client, connectToElasticsearch };
+export {connectToElasticsearch, client };
