@@ -25,7 +25,11 @@ async function createWindow() {
         alert('Unable to establish a connection with the server. Please try again later.');
     }
 
-    mainWindow.loadURL(`file://${join(__dirname, '../renderer/index.html')}`);
+    mainWindow.loadURL(`http://localhost:3000`);
+
+    if (process.env.NODE_ENV === 'production') {
+        mainWindow.loadURL(`file://${join(__dirname, '../renderer/index.html')}`);
+    }
 }
 
 app.whenReady().then(createWindow);
@@ -41,3 +45,7 @@ app.on('activate', () => {
         createWindow();
     }
 });
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+})
