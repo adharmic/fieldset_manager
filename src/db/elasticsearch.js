@@ -1,15 +1,30 @@
 import { Client } from "@elastic/elasticsearch";
 
-const client = new Client({ node: process.env.ELASTICSEARCH_URI || "http://localhost:9200" });
+const client = new Client({ 
+  node: "http://localhost:9200"
+});
 
 async function connectToElasticsearch() {
   try {
     await client.ping();
     console.log("Connected to Elasticsearch");
-  } catch (err) {
-    console.error("Failed to connect to Elasticsearch", err);
-    throw err;
+  } catch (error) {
+    console.error("Failed to connect to Elasticsearch", error);
+    throw error;
   }
 }
 
-export {connectToElasticsearch, client };
+async function addDataToElasticsearch(data) {
+  try {
+    await client.index({
+      index: "myindex",
+      document: data
+    });
+    console.log("Data added to Elasticsearch");
+  } catch (error) {
+    console.error("Failed to add data to Elasticsearch", error);
+    throw error;
+  }
+}
+
+export { connectToElasticsearch, addDataToElasticsearch };
